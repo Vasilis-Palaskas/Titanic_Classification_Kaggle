@@ -1,4 +1,5 @@
-Kaggle competition of Titanic classification: Accuracy score of 78.47% (this performance belongs to the top 10% in Kaggle competition)
+Kaggle competition of Titanic classification: Accuracy score of 78.47% (this performance belongs to the top 10% in Kaggle competition)-
+ Kaggle URL: https://www.kaggle.com/competitions/titanic/overview
 ==============================
 
 Overview
