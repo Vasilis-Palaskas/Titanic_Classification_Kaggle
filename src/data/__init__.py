@@ -38,6 +38,10 @@ from sklearn import metrics  #Additional scklearn functions
 from xgboost import cv
 from xgboost.sklearn import XGBClassifier
 from sklearn.pipeline import make_pipeline
+# ANN
+import tensorflow as tf
+from tensorflow import keras
+# Hyperparams
 import optuna## Optuna Hyperparameter Search method
 # Skopt functions
 from skopt import BayesSearchCV

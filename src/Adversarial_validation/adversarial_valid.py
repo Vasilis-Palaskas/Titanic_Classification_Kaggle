@@ -25,7 +25,7 @@ y=pd.DataFrame(titanic_train_data['Survived'].values)
 #%%% Data Processing and Classifier Pipelines Formation
 
 #-Initial Random Forest Classifier
-model=RandomForestClassifier(random_state = 1)
+model_adv_val=RandomForestClassifier(random_state = 1)
 
 #--Pipeline 1
 cat_pipeline = Pipeline([('imputer', SimpleImputer(strategy='most_frequent') ),
@@ -43,7 +43,7 @@ pipeline1 = ColumnTransformer([("cat_pipeline", cat_pipeline, cat_vars),
                                        ("num_pipeline",num_pipeline1, num_vars)])
 clf_pipeline1 = Pipeline(steps=[
     ('col_trans', pipeline1),
-    ('model',model)])
+    ('model',model_adv_val)])
 
 #--Pipeline 2
 
@@ -56,7 +56,7 @@ pipeline2 = ColumnTransformer([("cat_pipeline", cat_pipeline, cat_vars),
 
 clf_pipeline2 = Pipeline(steps=[
     ('col_trans', pipeline2),
-    ('model',model)])
+    ('model',model_adv_val)])
 
 #-Define nested cross-validation scheme
 cv_outer = StratifiedKFold(n_splits=10,shuffle=True, random_state=52)
@@ -179,7 +179,7 @@ new_titanic_test_data.head(10)
 X=pd.DataFrame(new_titanic_train_data)
 y=pd.DataFrame(titanic_train_data['Survived'].values)
 #-Initial Random Forest Classifier
-model=RandomForestClassifier(random_state = 1)
+model_adv_val=RandomForestClassifier(random_state = 1)
 
 #--Pipeline 1
 cat_pipeline = Pipeline([('imputer', SimpleImputer(strategy='most_frequent') ),
@@ -197,7 +197,7 @@ pipeline1 = ColumnTransformer([("cat_pipeline", cat_pipeline, cat_vars),
                                        ("num_pipeline",num_pipeline1, num_vars)])
 clf_pipeline1 = Pipeline(steps=[
     ('col_trans', pipeline1),
-    ('model',model)])
+    ('model',model_adv_val)])
 
 #--Pipeline 2
 
@@ -210,7 +210,7 @@ pipeline2 = ColumnTransformer([("cat_pipeline", cat_pipeline, cat_vars),
 
 clf_pipeline2 = Pipeline(steps=[
     ('col_trans', pipeline2),
-    ('model',model)])
+    ('model',model_adv_val)])
 
 
 #%%%% Adversarial validation using nested cross-validation scheme (our strategy will use nested cross-val and for this reason we check it here)

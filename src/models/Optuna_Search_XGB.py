@@ -1,8 +1,9 @@
 
 #%% Preparation for the hyperparams search and cross validation scheme
 
-# ---- Data processing pipelines
+model = XGBClassifier(eval_metric="logloss")# Initial XGB Classifier
 
+# ---- Data processing pipelines
 
 coltrans3 = ColumnTransformer([("cat_pipeline", cat_pipeline, cat_vars),
                                ("ord_pipeline", ord_pipeline, ord_vars)],
@@ -10,26 +11,29 @@ coltrans3 = ColumnTransformer([("cat_pipeline", cat_pipeline, cat_vars),
 # Final candidate pipelines: Combination of processes into single pipelines
 
 
-num_pipeline1= Pipeline( [('scaler',  StandardScaler()),
-                        ('imputer', KNNImputer(n_neighbors=10))] )
+num_pipeline1= Pipeline( [  ('scaler',  StandardScaler()),
+                            ('imputer', KNNImputer(n_neighbors=10))] 
+                        )
 
 # combine pipelines
 pipeline1 = ColumnTransformer([("cat_pipeline", cat_pipeline, cat_vars),
                                         ("ord_pipeline", ord_pipeline, ord_vars),
                                        ("num_pipeline",num_pipeline1, num_vars)])
+
 clf_pipeline1 = Pipeline(steps=[
     ('col_trans', pipeline1),
     ('model',model)])
 
 #--Pipeline 2
 
-num_pipeline2= Pipeline( [('normalizer',  MinMaxScaler()),
+num_pipeline2 = Pipeline( [('normalizer',  MinMaxScaler()),
                             ('imputer', KNNImputer(n_neighbors=10))] )
 # combine pipelines
 pipeline2 = ColumnTransformer([("cat_pipeline", cat_pipeline, cat_vars),
                                         ("ord_pipeline", ord_pipeline, ord_vars),
                                        ("num_pipeline",num_pipeline2, num_vars)])
-pipeline3=Pipeline([('column_transformer', coltrans3),
+
+pipeline3 =  Pipeline([('column_transformer', coltrans3),
                     ('scaler', StandardScaler()), ('imputer', KNNImputer(n_neighbors=10))])
 
 # --- Define nested cross-validation scheme
