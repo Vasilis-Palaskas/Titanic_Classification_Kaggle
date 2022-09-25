@@ -39,7 +39,7 @@ from xgboost import cv
 from xgboost.sklearn import XGBClassifier
 from sklearn.pipeline import make_pipeline
 # ANN
-import tensorflow as tf
+import tensorflow as tf #pip install tensorflow
 from tensorflow import keras
 # Hyperparams
 import optuna## Optuna Hyperparameter Search method
