@@ -1,7 +1,7 @@
 
 ###-----------------Exploratory Data Analysis (EDA)---------
 """ Runs exploratory data analysis and visualisation to detect the most
-        meaningful patterns in our data
+        meaningful patterns in our data and find useful findings about which features/covariates influence mostly our response variable of Survival
 """
 logger = logging.getLogger()
 logger.info('Univariate analysis')
