@@ -1,15 +1,15 @@
 
-""" Runs data processing scripts to turn raw data from (../raw) into
+""" Runs data processing scripts to turn external data from (../data/external) into
        cleaned data ready to be analyzed (saved in ../processed).
 """
 logger = logging.getLogger()
-logger.info('making final data set from raw data')
+logger.info('making final data set from external data')
 
 #---Choose working directory
 root = tk.Tk()
 root.withdraw()
 directory=filedialog.askdirectory()#user defined directory
-logger.info('Define the directory of your data (folder data/raw/')
+logger.info('Define the directory of your data (folder data/external/')
 os.chdir(directory)
 
 #---Import both train and test sets
