@@ -27,35 +27,22 @@ y=pd.DataFrame(titanic_train_data['Survived'].values)
 #-Initial Random Forest Classifier
 model_adv_val=RandomForestClassifier(random_state = 1)
 
-#--Pipeline 1
-cat_pipeline = Pipeline([('imputer', SimpleImputer(strategy='most_frequent') ),
-                        ('encoder', OneHotEncoder(handle_unknown='ignore',drop = 'first'))])
 
-ord_pipeline=Pipeline([('imputer', SimpleImputer(strategy='most_frequent') ),
-                        ('encoder', OrdinalEncoder())])
-
-num_pipeline1= Pipeline( [('scaler',  StandardScaler()),
-                        ('imputer', KNNImputer(n_neighbors=10))] )
-
-# combine pipelines
-pipeline1 = ColumnTransformer([("cat_pipeline", cat_pipeline, cat_vars),
-                                        ("ord_pipeline", ord_pipeline, ord_vars),
+# combine pipelines into a single one
+pipeline1_adv_val = ColumnTransformer([("cat_pipeline", cat_pipeline_adv_val, cat_vars),
+                                        ("ord_pipeline", ord_pipeline_adv_val, ord_vars),
                                        ("num_pipeline",num_pipeline1, num_vars)])
-clf_pipeline1 = Pipeline(steps=[
-    ('col_trans', pipeline1),
+
+pipeline2_adv_val = ColumnTransformer([("cat_pipeline", cat_pipeline_adv_val, cat_vars),
+                                        ("ord_pipeline", ord_pipeline_adv_val, ord_vars),
+                                       ("num_pipeline",num_pipeline2, num_vars)])
+# Classifier (clf) Pipeline sequential
+clf_pipeline2_adv_val = Pipeline(steps=[
+    ('col_trans', pipeline2_adv_val),
     ('model',model_adv_val)])
 
-#--Pipeline 2
-
-num_pipeline2= Pipeline( [('normalizer',  MinMaxScaler()),
-                            ('imputer', KNNImputer(n_neighbors=10))] )
-# combine pipelines
-pipeline2 = ColumnTransformer([("cat_pipeline", cat_pipeline, cat_vars),
-                                        ("ord_pipeline", ord_pipeline, ord_vars),
-                                       ("num_pipeline",num_pipeline2, num_vars)])
-
-clf_pipeline2 = Pipeline(steps=[
-    ('col_trans', pipeline2),
+clf_pipeline1_adv_val = Pipeline(steps=[
+    ('col_trans', pipeline1_adv_val),
     ('model',model_adv_val)])
 
 #-Define nested cross-validation scheme
@@ -178,41 +165,31 @@ new_titanic_train_data.head(10)
 new_titanic_test_data.head(10)
 X=pd.DataFrame(new_titanic_train_data)
 y=pd.DataFrame(titanic_train_data['Survived'].values)
-#-Initial Random Forest Classifier
-model_adv_val=RandomForestClassifier(random_state = 1)
 
-#--Pipeline 1
-cat_pipeline = Pipeline([('imputer', SimpleImputer(strategy='most_frequent') ),
+
+#%%   Data Processing Pipelines required for the adversarial validation techniques (src/Adversarial_validation/adversarial_valid.py)
+#--  
+""" 2): Data Processing Pipeline required for  the adversarial validation techniques
+"""
+cat_pipeline_adv_val = Pipeline([('imputer', SimpleImputer(strategy='most_frequent') ),
                         ('encoder', OneHotEncoder(handle_unknown='ignore',drop = 'first'))])
 
-ord_pipeline=Pipeline([('imputer', SimpleImputer(strategy='most_frequent') ),
+ord_pipeline_adv_val=Pipeline([('imputer', SimpleImputer(strategy='most_frequent') ),
                         ('encoder', OrdinalEncoder())])
 
 num_pipeline1= Pipeline( [('scaler',  StandardScaler()),
-                        ('imputer', KNNImputer(n_neighbors=10))] )
-
-# combine pipelines
-pipeline1 = ColumnTransformer([("cat_pipeline", cat_pipeline, cat_vars),
-                                        ("ord_pipeline", ord_pipeline, ord_vars),
-                                       ("num_pipeline",num_pipeline1, num_vars)])
-clf_pipeline1 = Pipeline(steps=[
-    ('col_trans', pipeline1),
-    ('model',model_adv_val)])
-
-#--Pipeline 2
+                        ('imputer', KNNImputer(n_neighbors=10))] )# standard scaler
 
 num_pipeline2= Pipeline( [('normalizer',  MinMaxScaler()),
-                            ('imputer', KNNImputer(n_neighbors=10))] )
-# combine pipelines
-pipeline2 = ColumnTransformer([("cat_pipeline", cat_pipeline, cat_vars),
-                                        ("ord_pipeline", ord_pipeline, ord_vars),
+                            ('imputer', KNNImputer(n_neighbors=10))] )# normaliser scaler
+# combine pipelines into a single one
+pipeline1_adv_val = ColumnTransformer([("cat_pipeline", cat_pipeline_adv_val, cat_vars),
+                                        ("ord_pipeline", ord_pipeline_adv_val, ord_vars),
+                                       ("num_pipeline",num_pipeline1, num_vars)])
+
+pipeline2_adv_val = ColumnTransformer([("cat_pipeline", cat_pipeline_adv_val, cat_vars),
+                                        ("ord_pipeline", ord_pipeline_adv_val, ord_vars),
                                        ("num_pipeline",num_pipeline2, num_vars)])
-
-clf_pipeline2 = Pipeline(steps=[
-    ('col_trans', pipeline2),
-    ('model',model_adv_val)])
-
-
 #%%%% Adversarial validation using nested cross-validation scheme (our strategy will use nested cross-val and for this reason we check it here)
 
 #--- Enumerate splits and initialise a vector with results for ROC-AUC pre cv outer split

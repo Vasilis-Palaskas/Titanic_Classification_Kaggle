@@ -58,6 +58,7 @@ Project Organization
     │   │
     │   ├── features engineering      <- Scripts to process raw data to create new features which can be evaluated using both Feature Importance algorithms and   eda     │   │   │                                                            techniques  in order to decide the final features for modeling 
     │   │   └── build_features.py                <- Create features 
+    │   │   └── Data_Pipelines.py                <- Data Processing Pipelines preparation in order to use them in the next scripts (Feature_Importance.py, adversarial_valid.py,Optuna_Searcj_XGB.py, Bayes_Search_RF.py)
     │   │   └── Feature_Importance.py            <- Feature Importance measurement using Boruta-Shap values
     │   │   └── eda.py                           <- Exploratory data analysis and visualisation to detech significant patterns
     │   │   └── final_data_train.py              <- After both 2 previous steps, decide which features will be used for the final model training

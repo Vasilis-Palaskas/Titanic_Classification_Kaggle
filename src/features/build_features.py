@@ -44,7 +44,7 @@ titanic_test_data['title'] = titanic_test_data['title'].replace('Mlle','Miss')
 titanic_test_data['title'] = titanic_test_data['title'].replace('Ms','Miss')
 titanic_test_data['title'] =titanic_test_data['title'].replace('Mme','Mrs')   
 
-#--Feature 3: Normalisation and sqrt of Fare ticket
+#--Feature 3: Normalisation and sqrt of Fare ticket (those ideas came from draft exploration of the data which could convert it to more normal)
 
 # 3.1: Logarithm
 titanic_train_data["log_fare"]=titanic_train_data["Fare"]
@@ -104,10 +104,11 @@ age_std  = titanic_train_data['Age'].std()
 age_null_train = titanic_train_data['Age'].isnull().sum()
 age_null_test = titanic_test_data['Age'].isnull().sum()
 
+
+# Age categories (replace missing values of Age)
 random_list_train = np.random.randint(age_avg - age_std, age_avg + age_std , size = age_null_train)
 random_list_test = np.random.randint(age_avg - age_std, age_avg + age_std , size = age_null_test)
 
-# Age categories (replace missing values of Age)
 
 titanic_train_data['Age_cat']=titanic_train_data['Age']
 titanic_train_data['Age_cat'][np.isnan(titanic_train_data['Age'])] = random_list_train
@@ -116,14 +117,14 @@ titanic_train_data['Age_cat'] = titanic_train_data['Age_cat'].astype(int)
 titanic_test_data['Age_cat']=titanic_test_data['Age']
 titanic_test_data['Age_cat'][np.isnan(titanic_test_data['Age'])] =random_list_test
 titanic_test_data['Age_cat'] = titanic_test_data['Age_cat'].astype(int)
-# Age category grouping
+# Age category grouping by obtaining the equal size intervals of the response in 5 equal size splits
 titanic_train_data['category_age'] = pd.cut(titanic_train_data['Age_cat'], 5)
 titanic_test_data['category_age'] = pd.cut(titanic_test_data['Age_cat'], 5)
 
 # Mapping Age based on the binnning implemented above
 titanic_train_data['Age_new']= titanic_train_data['Age']# create new identical feature to avoid confusion
 titanic_test_data['Age_new']= titanic_test_data['Age']#>>
-
+# Assign to each category a numeric value to make it a multi-class categorical feature
 titanic_train_data.loc[ titanic_train_data['Age'] <= 16, 'Age_new']= 0
 titanic_train_data.loc[(titanic_train_data['Age'] > 16) & (titanic_train_data['Age'] <= 32), 'Age_new'] = 1
 titanic_train_data.loc[(titanic_train_data['Age'] > 32) & (titanic_train_data['Age'] <= 48), 'Age_new'] = 2
@@ -138,7 +139,8 @@ titanic_test_data.loc[ titanic_test_data['Age'] > 64, 'Age_new']    = 4
 
 
 #-- Dropping of several useless variables for both train and test datasets
-columns_to_drop = ["PassengerId","Ticket", "Cabin","Name", "SibSp", "Parch", "family_size","category_fare","category_age","Age_cat"]
+columns_to_drop = ["PassengerId","Ticket", "Cabin","Name", "SibSp", "Parch", "family_size","category_fare",
+                   "category_age","Age_cat"]
 titanic_train_data=titanic_train_data.drop(columns_to_drop, axis=1)
 titanic_test_data=titanic_test_data.drop(columns_to_drop, axis=1)
 # Check whether missing values exist or not

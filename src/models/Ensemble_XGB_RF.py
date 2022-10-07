@@ -118,20 +118,25 @@ print('Out-Sample (i.e. per test set within cv outer split) Accuracy: %.3f (%.3f
 print('Out-Sample (i.e. per test set within cv outer split) F1 score: %.3f (%.3f)' % (np.mean(outer_results_f1_ensembled), np.std(outer_results_f1_ensembled))) #F1:   77.200 (4.895)
 
 #%%%% Save model training and model prediction results both inner and outer cv splits 
+directory='C:/Users/vasileios palaskas/Documents/GitHub/Titanic_Classification_Kaggle/models/Ensemble Predictions_XGB_RF'
+logger.info('Define the directory of your saved model objects (folder Titanic_Classification_Kaggle/models/Ensemble Predictions_XGB_RF')
+os.chdir(directory)
+# Write-Save objects
 with open("outer_results_ensembled", "wb") as outer_results_ensembled_fp:   #Pickling
  pickle.dump(outer_results_ensembled, outer_results_ensembled_fp)
 
-with open("outer_results_ensembled", "rb") as outer_results_ensembled_fp:   # Unpickling
- b = pickle.load(outer_results_ensembled_fp)
-#
+ with open("outer_yhat_ensembled", "wb") as outer_yhat_ensembled_fp:   #Pickling
+  pickle.dump(outer_yhat_ensembled, outer_yhat_ensembled_fp)
+
 with open("y_out_sample_test_results_ensembled", "wb") as y_out_sample_test_results_ensembled_fp:   #Pickling
  pickle.dump(y_out_sample_test_results_ensembled, y_out_sample_test_results_ensembled_fp)
 
-with open("y_out_sample_test_results_ensembled", "rb") as y_out_sample_test_results_ensembled_fp:   # Unpickling
- b = pickle.load(y_out_sample_test_results_ensembled_fp) 
-#%%%% Store our predictions (saved in models/Ensemble Predictions)
 
- with open("outer_yhat_ensembled", "wb") as outer_yhat_ensembled_fp:   #Pickling
-  pickle.dump(outer_yhat_ensembled, outer_yhat_ensembled_fp)
+# Load model objects
+
+with open("outer_results_ensembled", "rb") as outer_results_ensembled_fp:   # Unpickling
+   b = pickle.load(outer_results_ensembled_fp)
 with open("outer_yhat_ensembled", "rb") as outer_yhat_ensembled_fp:   # Unpickling
         y_hat_optuna_xgb_list = pickle.load(outer_yhat_ensembled_fp)
+with open("y_out_sample_test_results_ensembled", "rb") as y_out_sample_test_results_ensembled_fp:   # Unpickling
+ b = pickle.load(y_out_sample_test_results_ensembled_fp) 

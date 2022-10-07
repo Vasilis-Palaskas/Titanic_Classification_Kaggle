@@ -1,13 +1,20 @@
 
-#%%%%Final solution to be submitted in Kaggle
+#%%%%----------Final solution to be submitted in Kaggle
 
-# For each cv outer split, we obtain the competition test predictions from cross-validated ensemble model.
+# For each cv outer split, we obtain the  predictions, through the nested cross-validated ensemble model, of
+# competition's public leaderboard test dataset.
 # In essence, this means that we have 10 (10 are cv outer splits) lists including the predictions 
-# from the competition test set
+# from the competition's public leaderboard test dataset.
 # For this reason, we must obtain the most frequent prediction for each competition test set row/observation
 # in order to take into advantage the cross-validated scores and hence, submit single predictions per observation
 
-# Read
+#---Choose working directory
+root = tk.Tk()
+root.withdraw()
+directory=filedialog.askdirectory()#user defined directory
+logger.info('Define the directory of your data (folder data/raw/')
+os.chdir(directory)
+# Read csv file including the test dataset from the Kaggle compeition's public leaderboard
 final_titanic_test_data=pd.read_csv(directory+"/test.csv",header=0, encoding="utf-8")
 
 # calculate averages per list in order to obtain the probabilistic cross-validated out-of-sample predictions
