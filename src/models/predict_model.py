@@ -18,6 +18,12 @@ os.chdir(directory)
 final_titanic_test_data=pd.read_csv(directory+"/test.csv",header=0, encoding="utf-8")
 
 # calculate averages per list in order to obtain the probabilistic cross-validated out-of-sample predictions
+
+root = tk.Tk()
+root.withdraw()
+directory=filedialog.askdirectory()#user defined directory
+logger.info('Define the directory of your data (folder  models/Ensemble Predictions_XGB_RF/y_out_sample_test_results_ensembled')
+
 y_out_sample_test_results_ensembled
 y_out_sample_test_results_ensembled_averages = [sum(sub_list) / len(sub_list) for sub_list in zip(*y_out_sample_test_results_ensembled)]
 y_out_sample_test_results_ensembled_averages_array =np.array(y_out_sample_test_results_ensembled_averages)
@@ -29,6 +35,12 @@ y_out_sample_test_results_ensembled_averages_df["PassengerId"]=y_out_sample_test
 
 y_out_sample_test_results_ensembled_averages_df.columns = ["Survived","PassengerId"]
 y_out_sample_test_results_ensembled_averages_df=y_out_sample_test_results_ensembled_averages_df.reset_index(drop=True)
+
+root = tk.Tk()
+root.withdraw()
+directory=filedialog.askdirectory()#user defined directory
+logger.info('Define the directory of your data (folder  models/Submission')
+
 y_out_sample_test_results_ensembled_averages_df.to_csv('ensembled_predictions_xgb_rf.csv')#better predictions to belong in the top 55%
 
 
