@@ -1,8 +1,5 @@
 #%%Libraries Loading
 from sklearn.linear_model import LogisticRegression
-
-
-
 #%% Preparation for the hyperparams search and cross validation scheme
 
 # ---- Data processing pipelines& Classifier combination
