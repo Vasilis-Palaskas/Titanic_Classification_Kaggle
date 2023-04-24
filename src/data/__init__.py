@@ -61,3 +61,5 @@ from pathlib import Path
 from dotenv import find_dotenv, load_dotenv
 
 # %%
+    """Now its time to load the data of this project
+    """
