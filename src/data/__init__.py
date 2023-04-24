@@ -1,7 +1,6 @@
 #%%  Import necessary libraries for this project. 
 
-# Below, we import libraries depending on each functionality/task we will implement in the next Python scripts
-
+# Below, we import libraries depending on each functionality/task we will implement in the next
 #---Data processing and some useful libraries
 import requests
 import os
@@ -29,7 +28,8 @@ import sklearn
 from sklearn.preprocessing import LabelBinarizer, OneHotEncoder,OrdinalEncoder,StandardScaler, Normalizer, normalize,MinMaxScaler
 from sklearn.compose import ColumnTransformer
 from sklearn.ensemble import RandomForestClassifier
-from xgboost.sklearn import XGBClassifier
+from xgboost import XGBClassifier
+
 
 import tensorflow as tf #pip install tensorflow
 from tensorflow import keras
@@ -59,3 +59,5 @@ import click
 import logging
 from pathlib import Path
 from dotenv import find_dotenv, load_dotenv
+
+# %%
