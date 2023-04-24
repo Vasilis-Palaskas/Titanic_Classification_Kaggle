@@ -2,7 +2,6 @@
 
 # Below, we import libraries depending on each functionality/task we will implement in the next
 #---Data processing and some useful libraries
-
 # %%
 import requests
 import os
